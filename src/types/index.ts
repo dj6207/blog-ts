@@ -4,6 +4,11 @@ export interface UserState {
     loggedIn: boolean
 }
 
+export interface LoginData {
+    inputUserName: string;
+    inputPassword: string;
+}
+
 export interface BlogsState {
     blogsOwner: string,
     blogs: Blog[]
@@ -12,6 +17,16 @@ export interface BlogsState {
 export interface Blog {
     blogOwner: string,
     blogId: number,
+    blogTitle: string,
     date: string,
     text: string
+}
+
+export interface RouteItem {
+    path: string;
+    label: string;
+}
+
+export interface NavbarProps {
+    routes: RouteItem[];
 }

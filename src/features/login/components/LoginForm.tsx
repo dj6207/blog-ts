@@ -4,6 +4,7 @@ import { userLogin } from '../../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LoginData } from '../../../types';
 
 export default function LoginForm() {
     const navigate = useNavigate();
@@ -11,17 +12,35 @@ export default function LoginForm() {
     const [inputUserName, setInputUserName] = useState<string>("");
     const [inputPassword, setInputPassword] = useState<string>("");
 
-    function handleLogin(loginInfo: any) {
+    function handleLogin(loginInfo: LoginData) {
         dispatch(userLogin(loginInfo));
-        navigate('/blogs');
+        // Use useNavigate when you are going to the page with side effects
+        navigate(`/${loginInfo.inputUserName}/blogs`);
     }
 
     return (
-    <div className='loginForm'>
-        <h1>Login</h1>
-        <input type='text' value={inputUserName} onChange={(e) => setInputUserName(e.target.value)} placeholder='username'></input>
-        <input type='password' value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} placeholder='password'></input>
-        <button className='loginButton' onClick={() => handleLogin({inputUserName, inputPassword})}>Login</button>
+    <div className='login'>
+        <div className='loginForm'>
+            <h1 className='loginTitle'>Login</h1>
+            <input
+                type='text'
+                value={inputUserName}
+                onChange={(e) => setInputUserName(e.target.value)}
+                placeholder='Username'
+                className='loginInput'
+            />
+            <input
+                type='password'
+                value={inputPassword}
+                onChange={(e) => setInputPassword(e.target.value)}
+                placeholder='Password'
+                className='loginInput'
+            />
+            <button 
+                className='loginButton' onClick={() => handleLogin({inputUserName, inputPassword})}>
+                Login
+            </button>
+        </div>
     </div>
     )
 }

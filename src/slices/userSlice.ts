@@ -19,9 +19,14 @@ const userSlice = createSlice({
             state.loggedIn = true;
             state.userName = inputUserName;
             state.password = inputPassword;
+        },
+        userLogout: (state) => {
+            state.loggedIn = false;
+            state.userName = '';
+            state.password = '';
         }
     }
 });
 
-export const { userLogin } = userSlice.actions;
+export const { userLogin, userLogout } = userSlice.actions;
 export default userSlice.reducer;
