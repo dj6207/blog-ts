@@ -14,7 +14,7 @@ const initialState: BlogsState = {
     },
     {
         blogOwner: 'Tom',
-        blogId: 2,
+        blogId: 1,
         blogTitle: 'Today',
         date: '5/23/2003',
         text: 'No'
@@ -43,6 +43,17 @@ const blogsSlice = createSlice({
             }
             state.blogs.push(newBlog);
         },
+        updateBlogs: (state, actions) => {
+            // the naming passed in must have the same naming passed out or else it will be undefined
+            const { editedBlogTitle, editedBlogText, id } = actions.payload;
+            const existingBlog = state.blogs.find(blog => blog.blogId === parseInt(id))
+            if (existingBlog) {
+                console.log(existingBlog)
+                existingBlog.blogTitle = editedBlogTitle;
+                existingBlog.text = editedBlogText;
+                state.blogs.push(existingBlog);
+            }
+        },
         getBlogs: (state, actions) => {
             // Get blogs by owner, if blogs is empty will make a call to the back end to get the blogs
         },
@@ -55,6 +66,6 @@ const blogsSlice = createSlice({
     }
 });
 
-export const { setBlogsOwner, setBlogs, addBlog, clearBlogs } = blogsSlice.actions;
+export const { setBlogsOwner, setBlogs, addBlog, clearBlogs, updateBlogs } = blogsSlice.actions;
 export default blogsSlice.reducer;
 

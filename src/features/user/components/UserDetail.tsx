@@ -7,8 +7,8 @@ export default function UserDetail() {
     const userDetails = useAppSelector((state) => state.user);
     const numBlogs = useAppSelector((state) => state.blogs.blogs.length);
     return (
-        <div className='user-container'>
-            <h1 className='user-name'>{userDetails.userName}</h1>
+        <div className='userContainer'>
+            <h1 className='userName'>{userDetails.userName}</h1>
             <h2> Total Blogs: {numBlogs}</h2>
         </div>
     )

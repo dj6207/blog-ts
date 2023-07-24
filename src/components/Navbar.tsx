@@ -17,23 +17,27 @@ export const NavBar: React.FC<NavbarProps> = ({ routes }) => {
         dispatch(clearBlogs());
         navigate('/login');
     }
-
+    // probably can remove the multiply isLoggedIn checks
     return (
-        <nav className="nav-bar">
-            <ul className="navbar-list">
-                {isLoggedIn && (
-                    <li className="navbar-item">
-                        <button className="navbar-link" onClick={() => handleLogout()}>Logout</button>
-                    </li>
-                )}
-                {isLoggedIn && routes.map((route) => (
-                    <li className="navbar-item" key={route.path}>
-                        <Link to={`/${userName}${route.path}`} className="navbar-link">
-                            {route.label}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </nav>
+        <>
+        {isLoggedIn && (
+            <nav className="nav-bar">
+                <ul className="navbar-list">
+                    {isLoggedIn && (
+                        <li className="navbar-item">
+                            <button className="navbar-link" onClick={() => handleLogout()}>Logout</button>
+                        </li>
+                    )}
+                    {isLoggedIn && routes.map((route) => (
+                        <li className="navbar-item" key={route.path}>
+                            <Link to={`/${userName}${route.path}`} className="navbar-link">
+                                {route.label}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+        )}
+        </>
     );
 };

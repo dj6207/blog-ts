@@ -6,13 +6,16 @@ import { addBlog } from '../../../slices/blogsSlice';
 
 export default function BlogForm() {
     const dispatch = useAppDispatch();
-    const [createNewBlog, { isLoading }] = useCreateNewBlogMutation();
+    const userName = useAppSelector((state) => state.user.userName)
+    const nextBlogId = useAppSelector((state) => state.blogs.blogs.length);
+
     const [showForm, setShowForm] = useState(false);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+
+    const [createNewBlog, { isLoading }] = useCreateNewBlogMutation();
     const canSave = [title, content].every(Boolean) && !isLoading;
-    const userName = useAppSelector((state) => state.user.userName)
-    const nextBlogId = useAppSelector((state) => state.blogs.blogs.length);
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (canSave) {
@@ -26,6 +29,7 @@ export default function BlogForm() {
             }
         }
     };
+    
     if (!showForm) {
         return (
             <button onClick={() => setShowForm(true)}>Create Blog</button>
