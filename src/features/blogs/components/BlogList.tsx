@@ -2,21 +2,58 @@ import React from 'react';
 import '../assets/BlogList.css';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { Link } from 'react-router-dom';
-import { setBlogsOwner } from '../../../slices/blogsSlice';
+import { setBlogsOwner, setBlogs } from '../../../slices/blogsSlice';
+import { useGetBlogsByUserNameQuery } from '../../../services/apiSlice';
 
 export default function BlogList() {
     const dispatch = useAppDispatch();
     const blogs = useAppSelector((state) => state.blogs.blogs);
-    const user = useAppSelector((state) => state.user);
-    dispatch(setBlogsOwner(user.userName));
+    const userName = useAppSelector((state) => state.user.userName);
+
+    // This will not work at the moment since the api is not setup yet on my end
+    const { 
+        data: fetchedBlogs, 
+        isLoading, 
+        isSuccess, 
+        isError, 
+        error 
+    } = useGetBlogsByUserNameQuery(userName);
+
+    let blogItem
+    if (isLoading) {
+        // If I had a spinner component I would put that here
+        blogItem = <p>Fetching Blogs</p>
+    } else if (isSuccess) {
+        blogItem = fetchedBlogs.map(blog => 
+            <Link to={`/${userName}/blogs/${blog.blogId}`} key={blog.blogId} className="blogItem">
+                <div className="blogTitle">Title: {blog.blogTitle}</div>
+                <div className="blogDate">Date: {blog.date}</div>
+            </Link>)
+    } else if (isError) {
+        // Since the Api is not set up it will display mock data
+        blogItem = 
+            <>
+                {blogs.map((Blog) => (
+                <Link to={`/${userName}/blogs/${Blog.blogId}`} key={Blog.blogId} className="blogItem">
+                    <div className="blogTitle">Title: {Blog.blogTitle}</div>
+                    <div className="blogDate">Date: {Blog.date}</div>
+                </Link>
+                ))}    
+            </>
+        console.log(`An error has occured when fetching data: ${error}`)
+    }
+    
+
+    dispatch(setBlogsOwner(userName));
     return (
         <div className='blogList'>
-            {blogs.map((Blog) => (
-            <Link to={`/${user.userName}/blogs/${Blog.blogId}`} key={Blog.blogId} className="blogItem">
+            {/* {blogs.map((Blog) => (
+            <Link to={`/${userName}/blogs/${Blog.blogId}`} key={Blog.blogId} className="blogItem">
                 <div className="blogTitle">Title: {Blog.blogTitle}</div>
                 <div className="blogDate">Date: {Blog.date}</div>
             </Link>
-            ))}
+            ))} */}
+            {blogItem}
         </div>
     )
 }

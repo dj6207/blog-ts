@@ -4,6 +4,7 @@ import { RouteItem, NavbarProps } from "../types";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import '../assets/Navbar.css'
 import { userLogout } from "../slices/userSlice";
+import { clearBlogs } from "../slices/blogsSlice";
 
 export const NavBar: React.FC<NavbarProps> = ({ routes }) => {
     const navigate = useNavigate();
@@ -13,11 +14,12 @@ export const NavBar: React.FC<NavbarProps> = ({ routes }) => {
 
     function handleLogout() {
         dispatch(userLogout());
+        dispatch(clearBlogs());
         navigate('/login');
     }
 
     return (
-        <nav>
+        <nav className="nav-bar">
             <ul className="navbar-list">
                 {isLoggedIn && (
                     <li className="navbar-item">

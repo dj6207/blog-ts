@@ -1,11 +1,16 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { userSlice, blogsSlice } from "../slices";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { apiSlice } from "../services/apiSlice";
 
 export const store = configureStore({
     reducer: {
         user: userSlice,
-        blogs: blogsSlice
+        blogs: blogsSlice,
+        [apiSlice.reducerPath]: apiSlice.reducer,
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

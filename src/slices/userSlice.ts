@@ -21,9 +21,7 @@ const userSlice = createSlice({
             state.password = inputPassword;
         },
         userLogout: (state) => {
-            state.loggedIn = false;
-            state.userName = '';
-            state.password = '';
+            return initialState
         }
     }
 });

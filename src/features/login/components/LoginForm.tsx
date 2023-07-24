@@ -13,14 +13,16 @@ export default function LoginForm() {
     const [inputPassword, setInputPassword] = useState<string>("");
 
     function handleLogin(loginInfo: LoginData) {
-        dispatch(userLogin(loginInfo));
         // Use useNavigate when you are going to the page with side effects
-        navigate(`/${loginInfo.inputUserName}/blogs`);
+        if (loginInfo.inputUserName !== "" && loginInfo.inputPassword !== "") {
+            dispatch(userLogin(loginInfo));
+            navigate(`/${loginInfo.inputUserName}/blogs`);
+        }
     }
 
     return (
     <div className='login'>
-        <div className='loginForm'>
+        <form className='loginForm'>
             <h1 className='loginTitle'>Login</h1>
             <input
                 type='text'
@@ -28,6 +30,7 @@ export default function LoginForm() {
                 onChange={(e) => setInputUserName(e.target.value)}
                 placeholder='Username'
                 className='loginInput'
+                required
             />
             <input
                 type='password'
@@ -35,12 +38,14 @@ export default function LoginForm() {
                 onChange={(e) => setInputPassword(e.target.value)}
                 placeholder='Password'
                 className='loginInput'
+                required
             />
             <button 
+                type='submit'
                 className='loginButton' onClick={() => handleLogin({inputUserName, inputPassword})}>
                 Login
             </button>
-        </div>
+        </form>
     </div>
     )
 }
