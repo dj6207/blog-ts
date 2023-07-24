@@ -14,6 +14,10 @@ export interface BlogsState {
     blogs: Blog[]
 }
 
+export interface SearchState {
+    searchTerm: string;
+}
+
 export interface Blog {
     blogOwner: string,
     blogId: number,
@@ -27,6 +31,12 @@ export interface RouteItem {
     label: string;
 }
 
-export interface NavbarProps {
+export type NavbarProps = {
     routes: RouteItem[];
+}
+
+export type FormProps = {
+    showForm: boolean;
+    title: string;
+    content: string;
 }

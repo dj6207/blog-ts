@@ -26,8 +26,8 @@ const blogsSlice = createSlice({
     name: 'blogs',
     initialState,
     reducers: {
-        setBlogsOwner: (state, actions) => {
-            state.blogsOwner = actions.payload;
+        setBlogsOwner: (state, action) => {
+            state.blogsOwner = action.payload;
         },
         setBlogs: (state, actions) => {
             state.blogs = actions.payload;
@@ -48,10 +48,8 @@ const blogsSlice = createSlice({
             const { editedBlogTitle, editedBlogText, id } = actions.payload;
             const existingBlog = state.blogs.find(blog => blog.blogId === parseInt(id))
             if (existingBlog) {
-                console.log(existingBlog)
                 existingBlog.blogTitle = editedBlogTitle;
                 existingBlog.text = editedBlogText;
-                state.blogs.push(existingBlog);
             }
         },
         getBlogs: (state, actions) => {

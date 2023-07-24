@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginData } from '../../../types';
 
-export default function LoginForm() {
+export default function LoginForm() { 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [inputUserName, setInputUserName] = useState<string>("");

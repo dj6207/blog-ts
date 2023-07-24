@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../assets/BlogList.css';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { Link } from 'react-router-dom';
-import { setBlogsOwner, setBlogs } from '../../../slices/blogsSlice';
+import { Link, useParams } from 'react-router-dom';
 import { useGetBlogsByUserNameQuery } from '../../../services/apiSlice';
+import { setBlogsOwner } from '../../../slices/blogsSlice';
 
 export default function BlogList() {
     const dispatch = useAppDispatch();
     const blogs = useAppSelector((state) => state.blogs.blogs);
-    const userName = useAppSelector((state) => state.user.userName);
+    const { userName } = useParams();
+
+    useEffect(() => {
+        dispatch(setBlogsOwner(userName));
+    }, [userName]);
 
     // This will not work at the moment since the api is not setup yet on my end
     const { 
@@ -17,7 +21,7 @@ export default function BlogList() {
         isSuccess, 
         isError, 
         error 
-    } = useGetBlogsByUserNameQuery(userName);
+    } = useGetBlogsByUserNameQuery(userName!);
 
     let blogItem
     if (isLoading) {
@@ -42,17 +46,8 @@ export default function BlogList() {
             </>
         console.log(`An error has occured when fetching data: ${error}`)
     }
-    
-
-    dispatch(setBlogsOwner(userName));
     return (
         <div className='blogList'>
-            {/* {blogs.map((Blog) => (
-            <Link to={`/${userName}/blogs/${Blog.blogId}`} key={Blog.blogId} className="blogItem">
-                <div className="blogTitle">Title: {Blog.blogTitle}</div>
-                <div className="blogDate">Date: {Blog.date}</div>
-            </Link>
-            ))} */}
             {blogItem}
         </div>
     )
