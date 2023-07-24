@@ -10,7 +10,9 @@ export const SearchBar: React.FC = () => {
     const navigate = useNavigate();
 
     function handleSearch() {
-        navigate(`/${searchText}/blogs`)
+        if (searchText !== ""){
+            navigate(`/${searchText}/blogs`)
+        }
     }
 
     return (
@@ -19,7 +21,6 @@ export const SearchBar: React.FC = () => {
                 type="text"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
-                required
                 className="search-input"
             />
             <button onClick={handleSearch} className="search-button">Search</button>
